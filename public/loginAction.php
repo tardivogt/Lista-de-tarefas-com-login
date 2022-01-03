@@ -8,11 +8,11 @@ $password = filter_input(INPUT_POST, 'password');
 if($email && $password){
   
     $user = $auth->validateLogin($email, $password);
-    
 
     if($user){
         header("Location: ".$base."/index.php");
-
+       
+        
         exit;
     }
 }

@@ -53,7 +53,10 @@ class TaskDaoSqlServer implements TaskDao{
         }
     }
     public function update(Task $t){
-        $sql = $this->pdo->prepare("UPDATE tarefa SET title = :title, body = :body WHERE idTask = :id AND  idUser = :idUser");
+        $sql = $this->pdo->prepare("UPDATE tarefa SET 
+        title = :title, 
+        body = :body 
+        WHERE idTask = :id AND  idUser = :idUser");
         $sql->bindValue(":title",$t->title);
         $sql->bindValue(":body",$t->body);
         $sql->bindValue(":id", $t->id);

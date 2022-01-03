@@ -32,7 +32,6 @@ require 'config.php';
                                     <label for="login" >Senha:</label></br>
                                     <input class="form-control input" type="password" name="password" placeholder="Senha"></br>
                                     <button class="btn btn-primary" type="submit" role="button" >Finalizar Cadastro</button></br></br>
-                                    <!-- <button class="btn btn-primary" type="submit"   onclick="validar()" ></button> -->
                                     <a class="btn btn-primary" href="login.php" role="button">Voltar</a>
                                 </div>
                             </form>
@@ -40,27 +39,6 @@ require 'config.php';
                     </div>
                 </div>
             </div>
-        </section>
-        <script>
-/*             function validar() {
-                var nome =formulario.nomer;
-                var email =formulario.emailr;
-                var senha =formulario.senhar;
-                if (nome.value == "") {
-                    alert("Email não informado");
-                    // Deixa o input com o focus
-                    nome.focus();
-                    // retorna a função e não olha as outras linhas
-                }else if(email.value == "") {
-                    alert("Senha não informada");
-                    email.focus();
-                }else if(senha.value == "") {
-                    alert("Senha não informada");
-                    senha.focus();
-                }
-                    alert("Formulário enviado!");     
-            } */
-            </script>
-     
+        </section>  
     </body>
 </html>

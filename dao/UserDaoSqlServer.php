@@ -49,17 +49,17 @@ class UserDaoSqlServer implements UserDao{
         return false;
     }
     public function update(User $u){
-        $sql = $this->pdo->prepare("UPDATE usuario SET
-            name = :name,
-            email = :email,
-            password = :password,
-            token = :token
-            WHERE id = :id");
+        $sql = $this->pdo->prepare("UPDATE usuario SET  
+        name = :name, 
+        email = :email,
+        password = :password,
+        token = :token 
+        WHERE id = :id");
         $sql->bindValue(':name', $u->name);
         $sql->bindValue(':email', $u->email);
-        $sql->bindValue(':password', $u->password);
-        $sql->bindValue(':token', $u->token);
-        $sql->bindValue(':id' , $u->id);
+        $sql->bindValue(':id', $u->id); 
+        $sql->bindValue(':password', $u->password); 
+        $sql->bindValue(':token', $u->token); 
         $sql->execute();
 
         return true;
@@ -75,5 +75,21 @@ class UserDaoSqlServer implements UserDao{
 
         return true;
     }
-        
+ 
+    public function getIdUser($id){
+        $sql = $this->pdo->prepare("SELECT * FROM usuario WHERE id = :id");
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+
+        if($sql->rowCount() !== 0){
+            $data = $sql->fetch(PDO::FETCH_ASSOC);
+            $u = new Task();
+            $u->id = $data['id'];
+            $u->name = $data['name'];
+            $u->email = $data['email'];
+            $u->password = $data['password'];
+            return $u;
+        }
+    }
+
 }

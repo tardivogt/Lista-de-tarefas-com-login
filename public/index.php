@@ -3,24 +3,31 @@ require 'config.php';
 require_once '../model/Auth.php'; 
 require '../dao/TaskDaoSqlserver.php';
 
+
 $auth = new Auth($pdo, $base);
 $userInfo = $auth->checkToken();
 
 $userTasks = new TaskDaoSqlServer($pdo);
 $tasks = $userTasks->getTasks($userInfo->id);
 
+$id = filter_input(INPUT_GET,'id');
+$userEditar = new UserDaoSqlServer($pdo);
+
+if($id){
+    $user= $userEditar->getIdUser($id);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <title>To Do</title>
-</head>
- 
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+        <title>Perfil</title>
+    </head>
     <body>
         <header>    
             <nav class="navbar navbar-light bg-light">
@@ -52,10 +59,38 @@ $tasks = $userTasks->getTasks($userInfo->id);
                                 <div class="form-group">
                                     <label for="login" >Nome Completo:<input name="name" class="form-control" value="<?=$userInfo->name?>" readonly></label></br>
                                     <label for="login" >Email:<input type="text" name="email" class="form-control email_perfil" value="<?=$userInfo->email?>" readonly></label></br></br>
-                            
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1"><i class="fas fa-pen"></i></button>
                                 </div>
                             </form>
                         </div>    
+                    </div>
+                </div>
+            </div>
+        </section>        
+        <section class="adicionar_container">
+            <div class="modal fade" id="modal1" tabindex="-1"aria-labelledby="modalLabel"aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Editar Cadastro</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm ">
+                                        <form method="POST" action="editarActionUser.php?id=<?=$userInfo->id?>">  
+                                            <input type="hidden" name="id" value="<?=$userInfo->id?>" />
+                                            <input type="hidden" name="token" value="<?=$userInfo->token?>" />
+                                            <label for="editar">Nome Completo:<input type="text" name="name" class="form-control" placeholder="Name" value="<?=$userInfo->name?>"></label>
+                                            <label for="editar">Email:<input class="form-control" rows="5" name="email"  placeholder="Email" value="<?=$userInfo->email;?>"></label>
+                                            <label for="editar">Senha:<input id="pwd" type="text" name="password" value="<?=$userInfo->password?>"></label>
+                                            <input class="form-control btn-dark" type="submit" name="submit" value="Salvar"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,7 +120,7 @@ $tasks = $userTasks->getTasks($userInfo->id);
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel">Cadastre Tarefa</h5>
+                                        <h5 class="modal-title" id="modalLabel">Editar Tarefa</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -137,6 +172,8 @@ $tasks = $userTasks->getTasks($userInfo->id);
                 </div>
             </div>
         </section>
+
+        <script src="../js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     </body>

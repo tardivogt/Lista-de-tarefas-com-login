@@ -10,6 +10,7 @@ class User{
 interface UserDao{
     public function findByToken($token);
     public function findByEmail($email);
+    public function getIdUser($id);
     public function update(User $u);
     public function insert(User $u);
 }
